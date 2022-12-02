@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 3aa21dbdcfebfeb49800c60a94c31c7e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - DengXian
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6880b12e30225b74dbb3aefb4ba7b02b, type: 3}
+  - {fileID: 12800000, guid: 82590beb8a5ec6b49a65571d7244e21d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
