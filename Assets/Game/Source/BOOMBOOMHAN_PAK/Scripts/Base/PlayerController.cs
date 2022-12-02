@@ -16,10 +16,10 @@ public class PlayerController : MonoBehaviour
 	[Header("输入轴或操作名称")]
 	
 	[SerializeField, DisplayName("水平移动轴")]
-	private string horizontalAxisName;
+	protected string horizontalAxisName;
 	
 	[SerializeField, DisplayName("垂直移动轴")]
-	private string verticalAxisName;
+	protected string verticalAxisName;
 	
 	[SerializeField, DisplayName("跳跃操作")]
 	private string jumpActionName;

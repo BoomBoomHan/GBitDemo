@@ -179,21 +179,3 @@ public class GameModeInspector : Editor
 		
 	}
 }
-
-[CustomEditor(typeof(BroGameModeBase), false), CanEditMultipleObjects]
-public class BroGameModeInspector : GameModeInspector
-{
-	protected override Type[] types
-	{
-		get => new[] { typeof(GameModeBase), typeof(BroGameModeBase) };
-	}
-}
-
-[CustomEditor(typeof(ShadowBroGameModeBase), false), CanEditMultipleObjects]
-public class ShadowBroGameModeInspector : GameModeInspector
-{
-	protected override Type[] types
-	{
-		get => new[] { typeof(GameModeBase), typeof(BroGameModeBase), typeof(ShadowBroGameModeBase) };
-	}
-}

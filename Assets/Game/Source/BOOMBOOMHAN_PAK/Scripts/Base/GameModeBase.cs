@@ -13,7 +13,7 @@ public class GameModeBase : MonoBehaviour
 	public static GameModeBase Instance;
 
 	[SerializeField, GameModeProperty(Category = "绑定", DisplayName = "默认角色类")]
-	private Character defaultCharacter;
+	protected Character defaultCharacter;
 	
 	protected float fps;
 
@@ -41,14 +41,14 @@ public class GameModeBase : MonoBehaviour
 		{
 			return defaultCharacter;
 		}
-		private set
+		protected set
 		{
 			defaultCharacter = value;
 		}
 	}
 
 	[SerializeField, GameModeProperty(Category = "绑定", DisplayName = "默认玩家控制器类")]
-	private PlayerController defaultPlayerController;
+	protected PlayerController defaultPlayerController;
 
 	public PlayerController DefaultPlayerController
 	{
@@ -56,14 +56,14 @@ public class GameModeBase : MonoBehaviour
 		{
 			return defaultPlayerController;
 		}
-		private set
+		protected set
 		{
 			defaultPlayerController = value;
 		}
 	}
 
 	[SerializeField, GameModeProperty(Category = "绑定", DisplayName = "默认游戏状态类")]
-	private GameState defaultGameState;
+	protected GameState defaultGameState;
 
 	public GameState DefaultGameState
 	{
@@ -71,14 +71,14 @@ public class GameModeBase : MonoBehaviour
 		{
 			return defaultGameState;
 		}
-		private set
+		protected set
 		{
 			defaultGameState = value;
 		}
 	}
 	
 	[SerializeField, GameModeProperty(Category = "绑定", DisplayName = "默认玩家状态类")]
-	private PlayerState defaultPlayerState;
+	protected PlayerState defaultPlayerState;
 
 	public PlayerState DefaultPlayerState
 	{
@@ -86,14 +86,14 @@ public class GameModeBase : MonoBehaviour
 		{
 			return defaultPlayerState;
 		}
-		private set
+		protected set
 		{
 			defaultPlayerState = value;
 		}
 	}
 
 	[SerializeField, GameModeProperty(Category = "绑定", SpaceFromLast = 10f, DisplayName = "游戏实例类")]
-	private GameInstance gameInstance;
+	protected GameInstance gameInstance;
 	
 	[GameModeProperty(DisplayName = "玩家起始点")]
 	public Vector2 PlayerStartPosition;

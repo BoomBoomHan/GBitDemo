@@ -80,4 +80,67 @@ public class Matrix<T>
 			return size;
 		}
 	}
+
+	public delegate int SumMethod_Int(T element);
+
+	public int SumByRow(int row, SumMethod_Int method)
+	{
+		int result = 0;
+		for (int i = 0; i < size.Y; i++)
+		{
+			result += method(tMat[row, i]);
+		}
+		return result;
+	}
+
+	public int SumByCol(int col, SumMethod_Int method)
+	{
+		int result = 0;
+		for (int i = 0; i < size.X; i++)
+		{
+			result += method(tMat[i, col]);
+		}
+		return result;
+	}
+
+	public bool IsValid(int x, int y)
+	{
+		if (x < 0 || x >= size.X)
+		{
+			return false;
+		}
+		if (y < 0 || y >= size.Y)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public bool IsValid(IntVector2D vec)
+	{
+		return IsValid(vec.X, vec.Y);
+	}
+
+	public delegate T ComputeMethod_Matrixes(T a, T b);
+
+	public static Matrix<T> LinearCompute(Matrix<T> a, Matrix<T> b, ComputeMethod_Matrixes method)
+	{
+		if (a.size != b.size)
+		{
+			throw new System.Exception("矩阵的行列不同，无法相加减！");
+		}
+
+		IntVector2D size = a.size;
+		var result = new Matrix<T>(size);
+		for (int i = 0; i < size.X; i++)
+		{
+			for (int j = 0; j < size.Y; j++)
+			{
+				result[i, j] = method(a[i, j], b[i, j]);
+			}
+		}
+
+		return result;
+	}
 }
