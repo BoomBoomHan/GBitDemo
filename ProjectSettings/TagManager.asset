@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Biaodi
+  - Tile
   layers:
   - Default
   - TransparentFX
@@ -44,4 +45,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 3324320417
+    locked: 0
+  - name: Number
+    uniqueID: 3060275833
     locked: 0

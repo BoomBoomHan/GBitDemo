@@ -10,7 +10,6 @@ public static class RoundDamage
 
     private static int damage_tiles = 0;//岩浆，伤害为0
     private static int prop_tiles = 0;//道具地砖，伤害为0
-    private static int normal_tiles = 0;
     public static int x = 0;
 
     public static int[,] blue;
