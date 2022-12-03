@@ -61,6 +61,8 @@ public class MatGameModeBase : GameModeBase
 		mps0 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 		mps1 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 
+		mc0.Team = EPlayerTeam.Blue;
+		mc1.Team = EPlayerTeam.Red;
 		mpc1.HorizontalAxisName = "P2Horizontal";
 		mpc1.VerticalAxisName = "P2Vertical";
 

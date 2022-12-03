@@ -23,9 +23,9 @@ public class ShowMaker : MonoBehaviour
 		iMatrix[2, 0] = 6;
 		iMatrix[3, 0] = 7;
 
-		AdvancedDebug.Log(iMatrix.IsValid(1, 1));
+		/*AdvancedDebug.Log(iMatrix.IsValid(1, 1));
 		AdvancedDebug.LogWarning(iMatrix.IsValid(-1, 1));
-		AdvancedDebug.LogError(iMatrix.IsValid(1, 4));
+		AdvancedDebug.LogError(iMatrix.IsValid(1, 4));*/
 		/*AdvancedDebug.LogWarning(iMatrix.SumByRow(0, (x) => x));
 		AdvancedDebug.LogError(iMatrix.SumByCol(0, (x) => x));*/
 	}

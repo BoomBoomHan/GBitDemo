@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
+[Obsolete]
 public class PlayerManager:MonoBehaviour
 {
     [SerializeField, DisplayName("À¶·½½ÇÉ«")]
