@@ -10,20 +10,33 @@ public class MatrixSystem : MonoBehaviour
 	[SerializeField, DisplayName("µØ×©2ÑùÆ·")]
 	GameObject floor2Sample;
 
+	Matrix<Floor> floorMatrix;
+
 	public static float Distance;
 
 	private void Awake()
 	{
 		Distance = Mathf.Abs(floor1Sample.transform.position.x - floor2Sample.transform.position.x);
 		AdvancedDebug.Log(Distance);
-		Destroy(floor1Sample);
-		Destroy(floor2Sample);
 
- 
+		floorMatrix = new Matrix<Floor>(6, 12);
+		MatchFloors(GameObject.FindGameObjectsWithTag("Tile"));
+		/*Destroy(floor1Sample);
+		Destroy(floor2Sample);*/
 	}
 
-	void MatchMatrix(GameObject[] floors)
+	private void MatchFloors(GameObject[] floors)
 	{
+		foreach (var floor in floors)
+		{
+			string name = floor.name;
+			int l = name.IndexOf("{");
+			int r = name.IndexOf("}");
+			int d = name.IndexOf(",");
 
+			int x = int.Parse(name.Substring(l + 1, d - l - 1));
+			int y = int.Parse(name.Substring(d + 1, r - d - 1));
+			floorMatrix[x, y] = floor.GetComponent<Floor>();
+		}
 	}
 }
