@@ -41,7 +41,13 @@ public class MatGameModeBase : GameModeBase
 		get => mps1;
 	}
 
-	private Vector2 p1StartPosition;
+	[SerializeField, GameModeProperty(Category = "主要", DisplayName = "矩阵系统")]
+	private MatrixSystem matrixSystem;
+
+	public MatrixSystem MatSystem
+	{
+		get => matrixSystem;
+	}
 
 	protected override void Awake()
     {
@@ -53,7 +59,7 @@ public class MatGameModeBase : GameModeBase
 
 		Instance = this;
 		mc0 = Instantiate(defaultCharacter, PlayerStartPosition, Quaternion.identity).GetComponent<MatCharacter>();
-		mc1 = Instantiate(defaultCharacter, p1StartPosition, Quaternion.identity).GetComponent<MatCharacter>();
+		mc1 = Instantiate(defaultCharacter, PlayerStartPosition, Quaternion.identity).GetComponent<MatCharacter>();
 
 		mpc0 = Instantiate(defaultPlayerController).GetComponent<MatPlayerController>();
 		mpc1 = Instantiate(defaultPlayerController).GetComponent<MatPlayerController>();
@@ -61,8 +67,21 @@ public class MatGameModeBase : GameModeBase
 		mps0 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 		mps1 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 
-		InitBlue();
-		InitRed();
+		Game.GetPlayerStartPositions(matrixSystem.Size, out IntVector2D p1Start, out IntVector2D p2Start);
+		Vector2 zeroPoint = matrixSystem.ZeroPoint;
+		mc0.transform.position = zeroPoint + new Vector2(matrixSystem.Distance * p1Start.Y, -matrixSystem.Distance * p1Start.X);
+		mc0.Location = p1Start;
+		mc0.Team = EPlayerTeam.Blue;
+		mc0.GetComponentInChildren<SpriteRenderer>().color = Color.blue;
+		matrixSystem.SetCharacterEnter(p1Start);
+
+		mc1.transform.position = zeroPoint + new Vector2(matrixSystem.Distance * p2Start.Y, -matrixSystem.Distance * p2Start.X);
+		mc1.Location = p2Start;
+		mc1.Team = EPlayerTeam.Red;
+		mpc1.HorizontalAxisName = "P2Horizontal";
+		mpc1.VerticalAxisName = "P2Vertical";
+		mc1.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+		matrixSystem.SetCharacterEnter(p2Start);
 
 		if (!GameInstance.Instance)
 		{
@@ -81,14 +100,14 @@ public class MatGameModeBase : GameModeBase
 		Application.targetFrameRate = -1;
 	}
 
-	void InitBlue()
+	void InitBlue(IntVector2D startLocation)
 	{
 		mc0.Team = EPlayerTeam.Blue;
 
 		mc0.GetComponentInChildren<SpriteRenderer>().color = Color.blue;
 	}
 
-	void InitRed()
+	void InitRed(IntVector2D startLocation)
 	{
 		mc1.Team = EPlayerTeam.Red;
 		mpc1.HorizontalAxisName = "P2Horizontal";
