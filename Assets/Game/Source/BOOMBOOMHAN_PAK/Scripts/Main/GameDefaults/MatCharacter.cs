@@ -14,6 +14,7 @@ public class MatCharacter : Character2D
     public IntVector2D Location
     {
         get { return location; }
+        set { location = value; }
     }
 
     public EPlayerTeam Team
@@ -25,6 +26,8 @@ public class MatCharacter : Character2D
     public UnityEvent<IntVector2D> MoveBegin;
 
     public UnityEvent<IntVector2D> MoveEnd;
+
+    private MatrixSystem matrixSystem;
 
     public MatCharacter()
     {
@@ -40,8 +43,11 @@ public class MatCharacter : Character2D
 
         MoveBegin.AddListener(OnMoveBegin);
         MoveEnd.AddListener(OnMoveEnd);
+
+        matrixSystem = GameModeBase.Get<MatGameModeBase>().MatSystem;
     }
 
+    [Obsolete]
     public void Move(Vector2 delta, float duration)
     {
         MoveBegin.Invoke(location);
@@ -49,8 +55,19 @@ public class MatCharacter : Character2D
         dt.onComplete += EndMove;
     }
 
+    private IntVector2D endLocation;
+
+    public void MoveTo(IntVector2D matrixLocation, float duration)
+    {
+        endLocation = matrixLocation;
+		MoveBegin.Invoke(location);
+		var dt = transform.DOMove((Vector2)matrixSystem[endLocation], duration);
+		dt.onComplete += EndMove;
+	}
+
     private void EndMove()
     {
+        location = endLocation;
         MoveEnd.Invoke(location);
     }
 

@@ -65,8 +65,16 @@ public class MatGameState : GameState
 		NewRound();
 	}
 
+	int roundCount = 0;
+	bool hasWall = true;
+
 	async UniTask CallSpecicalEvent()
 	{
+		roundCount++;
+		if (roundCount == 6)
+		{
+			hasWall = false;
+		}
 		await UniTask.Delay(1000);
 	}
 
@@ -76,5 +84,10 @@ public class MatGameState : GameState
 		actPlayer = waitPlayer;
 		waitPlayer = temp;
 		OnRoundBegin();
+	}
+
+	public bool DoesBlockExist()
+	{
+		return hasWall;
 	}
 }

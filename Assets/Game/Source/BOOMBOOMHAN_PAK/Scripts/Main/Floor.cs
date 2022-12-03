@@ -13,8 +13,22 @@ public class Floor : MonoBehaviour
         set => number = value;
     }
 
+    [SerializeField, DisplayName("ÖÐÐÄµã")]
+    Transform centerPoint;
+
+    public bool HasCharaterUpon
+    {
+        get;set;
+    }
+
+
     public static int ToNumber(Floor floor)
     {
         return floor.Number;
+    }
+
+    public static implicit operator Vector2(Floor floor)
+    {
+        return floor.centerPoint.transform.position;
     }
 }

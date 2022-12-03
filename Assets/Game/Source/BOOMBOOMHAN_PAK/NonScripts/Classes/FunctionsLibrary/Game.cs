@@ -11,10 +11,15 @@ public static class Game
 		p2Start = new IntVector2D(0, size.Y - 1);
 	}
 
-	public static bool IsValidMove(Matrix<Floor> map, 
+	public static bool IsValidMove(MatrixSystem map, 
 		IntVector2D currentLocation, IntVector2D moveDirection, bool blockWallExists)
 	{
-		if (!map.IsValid(currentLocation + moveDirection))
+		IntVector2D endLocation = currentLocation + moveDirection;
+		if (!map.FloorMatrix.IsValid(endLocation))
+		{
+			return false;
+		}
+		if (map[endLocation].HasCharaterUpon)
 		{
 			return false;
 		}
