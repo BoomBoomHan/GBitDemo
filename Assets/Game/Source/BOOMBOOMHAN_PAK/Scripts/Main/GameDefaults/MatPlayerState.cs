@@ -5,43 +5,74 @@ using UnityEngine;
 
 public class MatPlayerState : PlayerState
 {
-    MatCharacter mc;
+	MatCharacter mc;
 
-    bool isMoving;
+	bool isMoving;
 
-    protected override void Start()
-    {
-        base.Start();
+	int remainingStepCount;
 
-        mc = defaultCharacter as MatCharacter;
-        mc.MoveBegin.AddListener(SetMoveState);
-        mc.MoveEnd.AddListener(ResetMoveState);
-    }
+	public int RemainingStepCount
+	{
+		get => remainingStepCount;
+	}
 
-    public bool CanMove()
-    {
-        return IsInRound() && !IsMoving();
-    }
+	protected override void Awake()
+	{
+		base.Awake();
 
-    public bool IsInRound()
-    {
-        return true;
-    }
-
-    public bool IsMoving()
-    {
-        return isMoving;
-    }
-
-    void SetMoveState(IntVector2D vec)
-    {
-        AdvancedDebug.Log(mc.Team.ToString() + "Move");
-        isMoving = true;
-    }
-
-    void ResetMoveState(IntVector2D vec)
-    {
-		AdvancedDebug.Log(mc.Team.ToString() + "EndMove");
 		isMoving = false;
-    }
+		remainingStepCount = 0;
+	}
+
+	protected override void Start()
+	{
+		base.Start();
+
+		mc = defaultCharacter as MatCharacter;
+		mc.MoveBegin.AddListener(SetMoveState);
+		mc.MoveBegin.AddListener(ConsumeStep);
+		mc.MoveEnd.AddListener(ResetMoveState);
+	}
+
+	public void OnRoundBegin()
+	{
+		remainingStepCount = 5;
+	}
+
+	public void OnRoundEnd()
+	{
+
+	}
+
+	public bool CanMove()
+	{
+		return IsInRound && !IsMoving;
+	}
+
+	public bool IsInRound
+	{
+		get => remainingStepCount != 0;
+	}
+
+	public bool IsMoving
+	{
+		get => isMoving;
+	}
+
+	void SetMoveState(IntVector2D vec)
+	{
+		//AdvancedDebug.Log(mc.Team.ToString() + "Move");
+		isMoving = true;
+	}
+
+	void ResetMoveState(IntVector2D vec)
+	{
+		//AdvancedDebug.Log(mc.Team.ToString() + "EndMove");
+		isMoving = false;
+	}
+
+	void ConsumeStep(IntVector2D vec)
+	{
+		remainingStepCount--;
+	}
 }

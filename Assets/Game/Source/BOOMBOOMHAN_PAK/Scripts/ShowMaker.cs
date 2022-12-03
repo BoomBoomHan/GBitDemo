@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -28,5 +30,25 @@ public class ShowMaker : MonoBehaviour
 		AdvancedDebug.LogError(iMatrix.IsValid(1, 4));*/
 		/*AdvancedDebug.LogWarning(iMatrix.SumByRow(0, (x) => x));
 		AdvancedDebug.LogError(iMatrix.SumByCol(0, (x) => x));*/
+	}
+
+	[ContextMenu("ÖØÃüÃûµØ×©")]
+	public void Rename()
+	{
+		Transform[] floors = transform.GetComponentsInChildren<Transform>();
+		AdvancedDebug.Log(floors.Length);
+		foreach (Transform t in floors)
+		{
+			string name = t.gameObject.name;
+			int[] ls = name.AllIndexesOf("{").ToArray();
+			int[] rs = name.AllIndexesOf("}").ToArray();
+			if (ls == null || rs == null || ls.Length != 2)
+			{
+				continue;
+			}
+			int x = int.Parse(name.Substring(ls[0] + 1, rs[0] - ls[0] - 1));
+			int y = int.Parse(name.Substring(ls[1] + 1, rs[1] - ls[1] - 1));
+			t.gameObject.name = $"Floor({x},{y})";
+		}
 	}
 }

@@ -61,10 +61,8 @@ public class MatGameModeBase : GameModeBase
 		mps0 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 		mps1 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 
-		mc0.Team = EPlayerTeam.Blue;
-		mc1.Team = EPlayerTeam.Red;
-		mpc1.HorizontalAxisName = "P2Horizontal";
-		mpc1.VerticalAxisName = "P2Vertical";
+		InitBlue();
+		InitRed();
 
 		if (!GameInstance.Instance)
 		{
@@ -81,5 +79,21 @@ public class MatGameModeBase : GameModeBase
 
 		UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 		Application.targetFrameRate = -1;
+	}
+
+	void InitBlue()
+	{
+		mc0.Team = EPlayerTeam.Blue;
+
+		mc0.GetComponentInChildren<SpriteRenderer>().color = Color.blue;
+	}
+
+	void InitRed()
+	{
+		mc1.Team = EPlayerTeam.Red;
+		mpc1.HorizontalAxisName = "P2Horizontal";
+		mpc1.VerticalAxisName = "P2Vertical";
+
+		mc1.GetComponentInChildren<SpriteRenderer>().color = Color.red;
 	}
 }

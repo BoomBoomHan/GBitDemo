@@ -143,4 +143,18 @@ public class Matrix<T>
 
 		return result;
 	}
+
+	public Matrix<T> SubMatrix(IntVector2D originPoint, IntVector2D size)
+	{
+		Matrix<T> result = new Matrix<T>(size);
+		for (int i = 0; i < size.X; i++)
+		{
+			for (int j = 0; j < size.Y; j++)
+			{
+				result[i, j] = tMat[i + originPoint.X, j + originPoint.Y];
+			}
+		}
+
+		return result;
+	}
 }

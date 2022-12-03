@@ -9,17 +9,27 @@ public class MatCharacter : Character2D
 {
     IntVector2D location;
 
-    private EPlayerTeam team;
+    private Player playerConfig;
+
+    public IntVector2D Location
+    {
+        get { return location; }
+    }
 
     public EPlayerTeam Team
     {
-        get { return team; }
-        set { team = value; }
+        get { return playerConfig.PlayerTeam; }
+        set { playerConfig.PlayerTeam = value; }
     }
 
     public UnityEvent<IntVector2D> MoveBegin;
 
     public UnityEvent<IntVector2D> MoveEnd;
+
+    public MatCharacter()
+    {
+        playerConfig = new Player();
+    }
 
     protected override void Awake()
     {

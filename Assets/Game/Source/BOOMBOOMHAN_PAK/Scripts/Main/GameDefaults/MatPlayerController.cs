@@ -19,9 +19,12 @@ public class MatPlayerController : PlayerController
 
     protected override void Start()
     {
-        base.Awake();
+        base.Start();
+
         mc = defaultCharacter as MatCharacter;
         state = defaultPlayerState as MatPlayerState;
+
+        DisableInput();
     }
 
     protected override void InputTick(float deltaTime)
@@ -32,12 +35,12 @@ public class MatPlayerController : PlayerController
 
 		if (hor != 0.0f && state.CanMove())
         {
-            mc.Move(hor * Vector2.right, 0.5f);
+            mc.Move(hor * MatrixSystem.Distance * Vector2.right, 0.5f);
             
         }
         else if (vert != 0.0f && state.CanMove())
         {
-            mc.Move(vert * Vector2.up, 0.5f);
+            mc.Move(vert * MatrixSystem.Distance * Vector2.up, 0.5f);
         }
     }
 }

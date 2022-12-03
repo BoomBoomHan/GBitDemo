@@ -3,16 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Obsolete]
 public class Player
 {
-    
     public EPlayerTeam PlayerTeam;
 
     public float InitiaHP;
 
     public int NumberSteps;
-
 
     public Player()
     {
