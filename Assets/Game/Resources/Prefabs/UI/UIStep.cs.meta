@@ -3,7 +3,12 @@ guid: 60defc8a17f8f0a4294729e80e0bd589
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Daven: {instanceID: 0}
+  - Lusii: {instanceID: 0}
+  - DavenHP: {instanceID: 0}
+  - LusiiHP: {instanceID: 0}
+  - step: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
