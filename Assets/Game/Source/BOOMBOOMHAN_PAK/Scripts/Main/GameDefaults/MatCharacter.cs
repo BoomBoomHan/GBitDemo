@@ -23,20 +23,58 @@ public class MatCharacter : Character2D
 		set { playerConfig.PlayerTeam = value; }
 	}
 
+	public bool HasSupplies
+	{
+		get;
+		private set;
+	}
+
 	public UnityEvent<IntVector2D> MoveBegin;
 
 	public UnityEvent<IntVector2D> MoveEnd;
 
 	private MatrixSystem matrixSystem;
 
+	public int Hp
+	{
+		get;
+		private set;
+	}
+
+	public int MaxHp
+	{
+		get => (int)playerConfig.InitiaHP;
+	}
+
+	public float HpPercentage
+	{
+		get => (float)Hp / MaxHp;
+	}
+
 	public MatCharacter()
 	{
 		playerConfig = new Player();
+		HasSupplies = false;
+	}
+
+	public static Vector3 GetVerticalDir(Vector3 _dir)
+	{
+		//£®_dir.x,_dir.z£©”Î£®£ø£¨1£©¥π÷±£¨‘Ú_dir.x * £ø + _dir.z * 1 = 0
+		if (_dir.x == 0)
+		{
+			return new Vector3(1, 0, 0);
+		}
+		else
+		{
+			return new Vector3(-_dir.z / _dir.x, 0, 1).normalized;
+		}
 	}
 
 	protected override void Awake()
 	{
 		base.Awake();
+
+		Hp = MaxHp;
 
 		MoveBegin = new UnityEvent<IntVector2D>();
 		MoveEnd = new UnityEvent<IntVector2D>();
@@ -45,6 +83,11 @@ public class MatCharacter : Character2D
 		MoveEnd.AddListener(OnMoveEnd);
 
 		matrixSystem = GameModeBase.Get<MatGameModeBase>().MatSystem;
+
+		var camera = Camera.main;
+
+		var rotator = camera.transform.rotation.eulerAngles;
+		AdvancedDebug.LogWarning(rotator);
 	}
 
 	protected override void Update()
@@ -82,5 +125,12 @@ public class MatCharacter : Character2D
 	private void OnMoveEnd(IntVector2D vec)
 	{
 		//AdvancedDebug.Log("OnMoveEnd");
+	}
+
+	public int ApplyDamage(int dmg)
+	{
+		int actuallyCaused = Math.Clamp(dmg, 0, Hp);
+		Hp -= dmg;
+		return actuallyCaused;
 	}
 }

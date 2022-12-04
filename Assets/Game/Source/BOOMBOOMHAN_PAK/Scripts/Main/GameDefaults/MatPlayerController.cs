@@ -43,7 +43,7 @@ public class MatPlayerController : PlayerController
 			//mc.Move(hor * matrixSystem.Distance * Vector2.right, 0.5f);
 			IntVector2D moveDirection = Mathf.RoundToInt(hor) * IntVector2D.Up;
 			bool valid = Game.IsValidMove(matrixSystem, mc.Location,
-				moveDirection, gameState.DoesBlockExist());
+				moveDirection, gameState.DoesBlockExist(), mc.HasSupplies);
 			if (valid)
 			{
 				mc.MoveTo(mc.Location + moveDirection, 0.5f);
@@ -58,7 +58,7 @@ public class MatPlayerController : PlayerController
 			//mc.Move(vert * matrixSystem.Distance * Vector2.up, 0.5f);
 			IntVector2D moveDirection = Mathf.RoundToInt(vert) * IntVector2D.Left;
 			bool valid = Game.IsValidMove(matrixSystem, mc.Location,
-				moveDirection, gameState.DoesBlockExist());
+				moveDirection, gameState.DoesBlockExist(), mc.HasSupplies);
 			if (valid)
 			{
 				mc.MoveTo(mc.Location + moveDirection, 0.5f);

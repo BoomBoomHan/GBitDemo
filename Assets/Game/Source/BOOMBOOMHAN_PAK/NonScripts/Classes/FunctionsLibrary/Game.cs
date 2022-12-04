@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class Game
@@ -12,7 +13,7 @@ public static class Game
 	}
 
 	public static bool IsValidMove(MatrixSystem map, 
-		IntVector2D currentLocation, IntVector2D moveDirection, bool blockWallExists)
+		IntVector2D currentLocation, IntVector2D moveDirection, bool blockWallExists, bool characterHasSupplies)
 	{
 		IntVector2D endLocation = currentLocation + moveDirection;
 		if (!map.FloorMatrix.IsValid(endLocation))
@@ -25,6 +26,11 @@ public static class Game
 			return false;
 		}
 		if (floor.IsVoid)
+		{
+			return false;
+		}
+		var sf = floor as SupplyFloor;
+		if (sf && !sf.CanCharacterEnter(characterHasSupplies))
 		{
 			return false;
 		}
@@ -81,7 +87,7 @@ public static class Game
 	}
 
 	//生成的是全局坐标
-	public static IntVector2D GeneratePoint(Matrix<Floor> map, EPlayerTeam team)
+	public static IntVector2D GeneratePoint(MatrixSystem map, EPlayerTeam team)
 	{
 		var queue = GetQueue(team);
 		var xSet = new HashSet<int>(queue.XQueue);
@@ -97,18 +103,28 @@ public static class Game
 		{
 			y = random.Next(0, map.Size.Y / 2);
 		} while (ySet.Contains(y));
-		queue.XQueue.Dequeue();
-		queue.YQueue.Dequeue();
+
+		queue.XQueue.Enqueue(x);
+		queue.YQueue.Enqueue(y);
+
+		if (queue.XQueue.Count > 2)
+		{
+			queue.XQueue.Dequeue();
+		}
+		if (queue.YQueue.Count > 2)
+		{
+			queue.YQueue.Dequeue();
+		}
 
 		return new IntVector2D(x, y);
 	}
 
-	public static int ComputeDamage(Matrix<Floor> map, EPlayerTeam team, IntVector2D globalLocation)
+	public static int ComputeDamage(MatrixSystem map, EPlayerTeam team, IntVector2D globalLocation)
 	{
 		if (blueMap == null || redMap == null)
 		{
-			blueMap = map.SubMatrix(new IntVector2D(0, 0), new IntVector2D(map.Size.X, map.Size.Y / 2));
-			redMap = map.SubMatrix(new IntVector2D(0, map.Size.Y / 2), new IntVector2D(map.Size.X, map.Size.Y / 2));
+			blueMap = map.FloorMatrix.SubMatrix(new IntVector2D(0, 0), new IntVector2D(map.Size.X, map.Size.Y / 2));
+			redMap = map.FloorMatrix.SubMatrix(new IntVector2D(0, map.Size.Y / 2), new IntVector2D(map.Size.X, map.Size.Y / 2));
 		}
 
 		var subMap = GetMap(team);
@@ -117,5 +133,75 @@ public static class Game
 		return subMap.SumByRow(subLocation.X, Floor.ToNumber)
 			+ subMap.SumByCol(subLocation.Y, Floor.ToNumber)
 			- subMap[subLocation].Number;
+	}
+
+	private static SupplyObject GenerateSupply()
+	{
+		System.Random random = new System.Random();
+		int lIndex = random.Next(0, 3);
+		switch (lIndex)
+		{
+		case 0:
+			return new PowerSupplyObject();
+		case 1:
+			return new PlusSupplyObject();
+		case 2:
+			return new MinusSupplyObject();
+		default:
+			return new PowerSupplyObject();
+		}
+	}
+
+	public static void GenerateSupplies(SupplyFloor[] lefts, SupplyFloor[] rights, int count = 1)
+	{
+		System.Random random = new System.Random();
+		int[] lIndexes = new int[2];
+		int[] rIndexes = new int[2];
+		lIndexes[0] = random.Next(0, lefts.Length); 
+		rIndexes[0] = random.Next(0, rights.Length);
+
+		do
+		{
+			lIndexes[1] = random.Next(0, lefts.Length);
+		} while (lIndexes[1] == lIndexes[0]);
+		do
+		{
+			rIndexes[1] = random.Next(0, rights.Length);
+		} while (rIndexes[1] == rIndexes[0]);
+
+		/*int lIndex = random.Next(0, lefts.Length);
+		int rIndex = random.Next(0, rights.Length);
+
+		SupplyFloor lFloor = lefts[lIndex];
+		SupplyFloor rFloor = rights[rIndex];*/
+
+		lefts[lIndexes[0]].SObject = GenerateSupply();
+		rights[rIndexes[0]].SObject = GenerateSupply();
+
+		if (count == 2)
+		{
+			lefts[lIndexes[1]].SObject = GenerateSupply();
+			rights[rIndexes[1]].SObject = GenerateSupply();
+		}
+
+		AdvancedDebug.Log(lefts[lIndexes[0]].Coord.ToString() + (lefts[lIndexes[0]].SObject.SSprite != null));
+		AdvancedDebug.Log(rights[rIndexes[0]].Coord.ToString() + (rights[rIndexes[0]].SObject.SSprite != null));
+		/*lFloor.SObject = GenerateSupply();
+		rFloor.SObject = GenerateSupply();*/
+	}
+	
+	public static IntVector2D ToMirrorLocation(MatrixSystem map, IntVector2D globalLocation)
+	{
+		return new IntVector2D(globalLocation.X, map.Size.Y - 1 - globalLocation.Y);
+	}
+
+	public static bool IsInDetention(MatrixSystem map, IntVector2D playerLocation, bool hasWall, bool characterHasSupply)
+	{
+		bool canMove = IsValidMove(map, playerLocation, IntVector2D.Up, hasWall, characterHasSupply) ||
+			IsValidMove(map, playerLocation, IntVector2D.Left, hasWall, characterHasSupply) ||
+			IsValidMove(map, playerLocation, IntVector2D.Down, hasWall, characterHasSupply) ||
+			IsValidMove(map, playerLocation, IntVector2D.Right, hasWall, characterHasSupply);
+
+		return !canMove;
 	}
 }

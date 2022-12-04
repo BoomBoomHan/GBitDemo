@@ -16,6 +16,7 @@ public class MatPlayerState : PlayerState
 	public int RemainingStepCount
 	{
 		get => remainingStepCount;
+		set => remainingStepCount = value;
 	}
 
 	protected override void Awake()

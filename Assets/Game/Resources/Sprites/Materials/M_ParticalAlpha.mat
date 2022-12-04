@@ -55,11 +55,11 @@ Material:
     m_Floats:
     - _Alpha: 0.6
     - _ColorCurve: 0.546
-    - _EdgeXMax: 0.79
-    - _EdgeXMin: 0.2
+    - _EdgeXMax: 0.929
+    - _EdgeXMin: 0.067
     - _EdgeXy: 0.787
-    - _EdgeYMax: 0.863
-    - _EdgeYMin: 0.25
+    - _EdgeYMax: 0.933
+    - _EdgeYMin: 0.065
     - _EnableExternalAlpha: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

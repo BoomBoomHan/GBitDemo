@@ -45,6 +45,15 @@ public class MatGameModeBase : GameModeBase
 	[SerializeField, GameModeProperty(Category = "主要", DisplayName = "矩阵系统")]
 	private MatrixSystem matrixSystem;
 
+	[SerializeField, GameModeProperty(Category = "UI", DisplayName = "游戏UI资源")]
+	private GameUi gameUiResource;
+
+	public GameUi Ui
+	{
+		get;
+		private set;
+	}
+
 	public MatrixSystem MatSystem
 	{
 		get => matrixSystem;
@@ -59,6 +68,9 @@ public class MatGameModeBase : GameModeBase
 		}
 
 		Instance = this;
+
+		Ui = Instantiate(gameUiResource).GetComponent<GameUi>();
+
 		mc0 = Instantiate(defaultCharacter, PlayerStartPosition, Quaternion.identity).GetComponent<MatCharacter>();
 		mc1 = Instantiate(defaultCharacter, PlayerStartPosition, Quaternion.identity).GetComponent<MatCharacter>();
 
@@ -100,7 +112,6 @@ public class MatGameModeBase : GameModeBase
 		{
 			InstantiateDefaults(ref gameInstance);
 		}
-
 		
 
 		UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
@@ -121,5 +132,20 @@ public class MatGameModeBase : GameModeBase
 		mpc1.VerticalAxisName = "P2Vertical";
 
 		mc1.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+	}
+
+	protected override void Update()
+	{
+		base.Update();
+
+		if (mc0 == null || mc1 == null)
+		{
+			return;
+		}
+
+		Ui.BlueHpBar.value = mc0.HpPercentage;
+		Ui.RedHpBar.value = mc1.HpPercentage;
+		Ui.BlueHpText.text = mc0.Hp.ToString();
+		Ui.RedHpText.text = mc1.Hp.ToString();
 	}
 }

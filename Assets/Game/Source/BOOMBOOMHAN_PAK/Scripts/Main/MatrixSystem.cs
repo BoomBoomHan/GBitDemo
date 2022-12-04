@@ -14,6 +14,14 @@ public class MatrixSystem : MonoBehaviour
 
 	MatGameModeBase gmb;
 
+	[SerializeField]
+	private GameObject blockingWall;
+
+	public GameObject BlockingWall
+	{
+		get => blockingWall;
+	}
+
 	public IntVector2D Size
 	{
 		get;private set;
@@ -62,6 +70,10 @@ public class MatrixSystem : MonoBehaviour
 	{
 		ZLocation = Mathf.Sin(tick) * FloatingRatio * 0.75f;
 		tick = (tick + Time.deltaTime) % (2.0f * Mathf.PI);
+
+		Vector3 target = blockingWall.transform.position;
+		target.z = ZLocation;
+		blockingWall.transform.position = target;
 	}
 
 	private void MatchFloors(GameObject[] floors)
@@ -78,6 +90,7 @@ public class MatrixSystem : MonoBehaviour
 			int y = int.Parse(name.Substring(d + 1, r - d - 1));
 			
 			FloorMatrix[x, y] = floor.GetComponent<Floor>();
+			FloorMatrix[x, y].Coord = new IntVector2D(x, y);
 			if (y >= FloorMatrix.Size.Y / 2)
 			{
 				FloorMatrix[x, y].Team = EPlayerTeam.Red;
@@ -93,6 +106,11 @@ public class MatrixSystem : MonoBehaviour
 	public Floor this[IntVector2D vec]
 	{
 		get => FloorMatrix[vec];
+	}
+
+	public Floor this[int x, int y]
+	{
+		get => FloorMatrix[new IntVector2D(x, y)];
 	}
 
 	public void SetCharacterEnter(IntVector2D location)

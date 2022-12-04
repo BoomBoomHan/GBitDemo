@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
+	public IntVector2D Coord;
+
 	private int number;
 
 	public EPlayerTeam Team
@@ -16,7 +18,7 @@ public class Floor : MonoBehaviour
 
 	public virtual int Number
 	{
-		get => IsVoid ? 0 : number;
+		get => IsVoidAndFall ? 0 : number;
 		set => number = value;
 	}
 
@@ -25,6 +27,9 @@ public class Floor : MonoBehaviour
 
 	[SerializeField, DisplayName("Í¼Æ¬Sprite")]
 	SpriteRenderer pictureRenderer;
+
+	[SerializeField, DisplayName("Í¼Æ¬Sprite")]
+	SpriteRenderer maskRenderer;
 
 	[SerializeField, DisplayName("¸öÎ»ÊýSprite")]
 	SpriteRenderer unitRenderer;
@@ -42,6 +47,7 @@ public class Floor : MonoBehaviour
 	private static Sprite[] numberSprites;
 
 	private static Sprite voidSprite;
+	private static GameObject empty;
 
 	private static int alphaCode;
 
@@ -57,15 +63,16 @@ public class Floor : MonoBehaviour
 		{
 			numberSprites[i] = Resources.Load<Sprite>($"Sprites/Pictures/Main/Numbers/Number{i}");
 		}
-		voidSprite = Resources.Load<Sprite>($"Sprites/Pictures/Main/Floors/S_VoidFloor");
+		voidSprite = Resources.Load<Sprite>("Sprites/Pictures/Main/Floors/S_VoidFloor");
+		empty = Resources.Load<GameObject>("Prefabs/Floor/EmptyFloor");
 		alphaCode = Shader.PropertyToID("_Alpha");
 
 		//TimerManager.GetTimerManager().SetTimer(() => AdvancedDebug.LogError("666"), 0.0f, 1.0f, 1L);
 	}
 
-	private void Update()
+	protected virtual void Update()
 	{
-		if (IsVoid && pictureRenderer.sprite == voidSprite)
+		if (IsVoidAndFall)
 		{
 			return;
 		}
@@ -103,6 +110,7 @@ public class Floor : MonoBehaviour
 
 	private async void TurnToVoidImpl()
 	{
+		maskRenderer.enabled = false;
 		unitRenderer.enabled = false;
 		pictureRenderer.sprite = voidSprite;
 		pictureRenderer.transform.localScale = new Vector3(0.135f, 0.135f, 0.135f);
@@ -111,6 +119,7 @@ public class Floor : MonoBehaviour
 		await UniTask.Delay(100);
 		var result = transform.DOMoveZ(36.0f, 32.0f);
 		result.onComplete += Disappear;
+		ReplaceToEmpty();
 	}
 
 	void Disappear()
@@ -124,15 +133,24 @@ public class Floor : MonoBehaviour
 		SetNumber(Mathf.Clamp(number + 1, 0, 4), character);
 	}
 
-	void SetNumber(int num, MatCharacter character = null)
+	public void SetNumber(int num, MatCharacter character = null)
 	{
+		int tmp = number;
 		number = num;
-		OnNumberChanged(character);
+		if (tmp != number)
+		{
+			OnNumberChanged(character);
+		}
 	}
 
 	public bool IsVoid
 	{
 		get => number == 4;
+	}
+
+	public bool IsVoidAndFall
+	{
+		get => IsVoid && pictureRenderer.sprite == voidSprite;
 	}
 
 	public static int ToNumber(Floor floor)
@@ -145,5 +163,26 @@ public class Floor : MonoBehaviour
 		return floor.centerPoint.transform.position;
 	}
 
+	public void TurnBright()
+	{
+		maskRenderer.DOColor(new Color(1.0f, 1.0f, 1.0f, 0.95f), 1.0f);
+	}
 
+	public void TurnNormal()
+	{
+		maskRenderer.DOColor(Color.clear, 1.0f);
+	}
+
+	public void ReplaceToEmpty()
+	{
+		GameObject go = Instantiate(empty, transform.position, Quaternion.identity);
+		var floor = go.GetComponent<Floor>();
+		floor.number = 4;
+		if (maskRenderer.color == Color.white)
+		{
+			floor.maskRenderer.color = Color.white;
+		}
+		GameModeBase.Get<MatGameModeBase>().MatSystem.FloorMatrix[Coord] = floor;
+		//GameModeBase.Get<MatGameModeBase>().MatSystem[]
+	}
 }
