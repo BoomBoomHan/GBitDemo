@@ -19,7 +19,12 @@ public static class Game
 		{
 			return false;
 		}
-		if (map[endLocation].HasCharaterUpon)
+		var floor = map[endLocation];
+		if (floor.HasCharaterUpon)
+		{
+			return false;
+		}
+		if (floor.IsVoid)
 		{
 			return false;
 		}

@@ -11,6 +11,8 @@ public class MatPlayerState : PlayerState
 
 	int remainingStepCount;
 
+	public EPlayerTeam Team;
+
 	public int RemainingStepCount
 	{
 		get => remainingStepCount;
@@ -28,6 +30,9 @@ public class MatPlayerState : PlayerState
 	{
 		base.Start();
 
+		/*var gmb = GameModeBase.Get<MatGameModeBase>();
+
+		mc = Team == EPlayerTeam.Blue ? gmb.P1Character : gmb.P2Character;*/
 		mc = defaultCharacter as MatCharacter;
 		mc.MoveBegin.AddListener(SetMoveState);
 		mc.MoveBegin.AddListener(ConsumeStep);

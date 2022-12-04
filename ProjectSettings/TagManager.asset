@@ -49,3 +49,6 @@ TagManager:
   - name: Number
     uniqueID: 3060275833
     locked: 0
+  - name: Mask
+    uniqueID: 4053586785
+    locked: 0

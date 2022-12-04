@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1243563139596486295}
-  - component: {fileID: 2316603417055963951}
-  - component: {fileID: 8797634775619453853}
+  - component: {fileID: 7028433726546164848}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: ConstantFloor
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2316603417055963951
+--- !u!114 &7028433726546164848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,32 +44,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1243563139596486293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8dad656a84961d40bb3af3779e90e00, type: 3}
+  m_Script: {fileID: 11500000, guid: a05eb8f27bfa35542b6ab120e575f300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   centerPoint: {fileID: 7275900463711017160}
   pictureRenderer: {fileID: 2379329377298250673}
   unitRenderer: {fileID: 948750898427051472}
---- !u!95 &8797634775619453853
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1243563139596486293}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1b3587c8ac98980439cce65425664535, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1563162222514813313
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,8 +191,8 @@ Transform:
   m_GameObject: {fileID: 5060961193759111381}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.135, y: 0.135, z: 0.135}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1243563139596486295}
   m_RootOrder: -1
@@ -238,7 +217,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 146caccdd421e5048914030f7843ff5c, type: 2}
+  - {fileID: 2100000, guid: 54c54d90c9e7d1d43884bf6dd4e3a1cc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -259,7 +238,7 @@ SpriteRenderer:
   m_SortingLayerID: -970646879
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 2931b7ec8f6e0064ba47fa365f6f2cc7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69635d9be36827446b80a509d88d8e17, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

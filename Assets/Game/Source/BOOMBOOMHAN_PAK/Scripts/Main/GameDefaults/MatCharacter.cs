@@ -47,12 +47,13 @@ public class MatCharacter : Character2D
 		matrixSystem = GameModeBase.Get<MatGameModeBase>().MatSystem;
 	}
 
-	[Obsolete]
-	public void Move(Vector2 delta, float duration)
+	protected override void Update()
 	{
-		MoveBegin.Invoke(location);
-		var dt = transform.DOMove(transform.position + (Vector3)delta, duration);
-		dt.onComplete += EndMove;
+		base.Update();
+
+		Vector3 target = transform.position;
+		target.z = MatrixSystem.ZLocation;
+		transform.position = target;
 	}
 
 	private IntVector2D endLocation;
@@ -61,7 +62,8 @@ public class MatCharacter : Character2D
 	{
 		endLocation = matrixLocation;
 		MoveBegin.Invoke(location);
-		var dt = transform.DOMove((Vector2)matrixSystem[endLocation], duration);
+		var dt = transform.DOMoveX(((Vector2)matrixSystem[endLocation]).x, duration);
+		transform.DOMoveY(((Vector2)matrixSystem[endLocation]).y, duration);
 		dt.onComplete += EndMove;
 	}
 

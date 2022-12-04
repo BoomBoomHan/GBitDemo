@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ public class MatGameModeBase : GameModeBase
 		get => matrixSystem;
 	}
 
-	protected override void Awake()
+	protected async override void Awake()
     {
 		if (Instance)
 		{
@@ -67,6 +68,18 @@ public class MatGameModeBase : GameModeBase
 		mps0 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 		mps1 = Instantiate(defaultPlayerState).GetComponent<MatPlayerState>();
 
+		mpc0.BindCharacter(mc0);
+		mpc1.BindCharacter(mc1);
+
+		mpc0.BindPlayerState(mps0);
+		mpc1.BindPlayerState(mps1);
+		mps0.BindCharacter(mc0);
+		mps1.BindCharacter(mc1);
+
+		/*mps0.Team = EPlayerTeam.Blue;
+		mps1.Team = EPlayerTeam.Red;*/
+
+		await UniTask.Delay(40);
 		Game.GetPlayerStartPositions(matrixSystem.Size, out IntVector2D p1Start, out IntVector2D p2Start);
 		Vector2 zeroPoint = matrixSystem.ZeroPoint;
 		mc0.transform.position = zeroPoint + new Vector2(matrixSystem.Distance * p1Start.Y, -matrixSystem.Distance * p1Start.X);
@@ -88,13 +101,7 @@ public class MatGameModeBase : GameModeBase
 			InstantiateDefaults(ref gameInstance);
 		}
 
-		mpc0.BindCharacter(mc0);
-		mpc1.BindCharacter(mc1);
-
-		mpc0.BindPlayerState(mps0);
-		mpc1.BindPlayerState(mps1);
-		mps0.BindCharacter(mc0);
-		mps1.BindCharacter(mc1);
+		
 
 		UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 		Application.targetFrameRate = -1;

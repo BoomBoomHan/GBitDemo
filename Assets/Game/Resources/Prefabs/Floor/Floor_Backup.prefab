@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1243563139596486295}
   - component: {fileID: 2316603417055963951}
-  - component: {fileID: 8797634775619453853}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: Floor_Backup
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,26 +50,6 @@ MonoBehaviour:
   centerPoint: {fileID: 7275900463711017160}
   pictureRenderer: {fileID: 2379329377298250673}
   unitRenderer: {fileID: 948750898427051472}
---- !u!95 &8797634775619453853
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1243563139596486293}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1b3587c8ac98980439cce65425664535, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1563162222514813313
 GameObject:
   m_ObjectHideFlags: 0

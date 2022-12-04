@@ -33,10 +33,11 @@ public class MatrixSystem : MonoBehaviour
 	{
 		Distance = Mathf.Abs(floor1Sample.transform.position.x - floor2Sample.transform.position.x);
 		AdvancedDebug.Log(Distance);
-
 		floorMatrix = new Matrix<Floor>(6, 12);
-		MatchFloors(GameObject.FindGameObjectsWithTag("Tile"));
+
 		Size = floorMatrix.Size;
+		MatchFloors(GameObject.FindGameObjectsWithTag("Tile"));
+
 		/*Destroy(floor1Sample);
 		Destroy(floor2Sample);*/
 	}
@@ -51,8 +52,21 @@ public class MatrixSystem : MonoBehaviour
 		gmb.P2Character.MoveEnd.AddListener(OnRedEnter);
 	}
 
+	[DisplayName("¸¡¶¯ÏµÊý")]
+	public float FloatingRatio = 0.35f;
+
+	public static float ZLocation = 0.0f;
+
+	float tick = 0.0f;
+	private void Update()
+	{
+		ZLocation = Mathf.Sin(tick) * FloatingRatio * 0.75f;
+		tick = (tick + Time.deltaTime) % (2.0f * Mathf.PI);
+	}
+
 	private void MatchFloors(GameObject[] floors)
 	{
+		//AdvancedDebug.Log(floors.Length);
 		foreach (var floor in floors)
 		{
 			string name = floor.name;
@@ -63,10 +77,10 @@ public class MatrixSystem : MonoBehaviour
 			int x = int.Parse(name.Substring(l + 1, d - l - 1));
 			int y = int.Parse(name.Substring(d + 1, r - d - 1));
 			
-			floorMatrix[x, y] = floor.GetComponent<Floor>();
-			if (y >= floorMatrix.Size.Y / 2)
+			FloorMatrix[x, y] = floor.GetComponent<Floor>();
+			if (y >= FloorMatrix.Size.Y / 2)
 			{
-				floorMatrix[x, y].Team = EPlayerTeam.Red;
+				FloorMatrix[x, y].Team = EPlayerTeam.Red;
 			}
 		}
 	}
@@ -78,14 +92,7 @@ public class MatrixSystem : MonoBehaviour
 
 	public Floor this[IntVector2D vec]
 	{
-		get => floorMatrix[vec];
-	}
-
-	private void Replace(IntVector2D originLocation, GameObject resource)
-	{
-		var floor = floorMatrix[originLocation];
-		var team = floor.Team;
-		var pos = floor;
+		get => FloorMatrix[vec];
 	}
 
 	public void SetCharacterEnter(IntVector2D location)

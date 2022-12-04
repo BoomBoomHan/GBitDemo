@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5510679201822999251}
-  - component: {fileID: 5510679201822999250}
+  - component: {fileID: 6978993923827455926}
   m_Layer: 0
   m_Name: MusicPlayer
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5510679201822999250
+--- !u!114 &6978993923827455926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,13 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5510679201822999249}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa94c5c06c1c5974c85a8f713f12a736, type: 3}
+  m_Script: {fileID: 11500000, guid: 90871cf3f6d184e44af69e2e843684aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realClip: {fileID: 8300000, guid: d1b3e18ffeb69704e9370dc7f0acaf0e, type: 3}
-  bpm: 84
-  molecule: 8
-  deno: 8
-  playDelay: 550
-  playOnStart: 1
-  Displayer: {fileID: 0}
+  bgm: {fileID: 0}
+  musicProperty:
+    bpm: 0
+    molecule: 0
+    deno: 0
+    playDelay: 0
+  volume: 1
