@@ -97,7 +97,7 @@ public class MatGameModeBase : GameModeBase
 		mc0.transform.position = zeroPoint + new Vector2(matrixSystem.Distance * p1Start.Y, -matrixSystem.Distance * p1Start.X);
 		mc0.Location = p1Start;
 		mc0.Team = EPlayerTeam.Blue;
-		mc0.GetComponentInChildren<SpriteRenderer>().color = Color.blue;
+		//mc0.GetComponentInChildren<SpriteRenderer>().color = Color.blue;
 		matrixSystem.SetCharacterEnter(p1Start);
 
 		mc1.transform.position = zeroPoint + new Vector2(matrixSystem.Distance * p2Start.Y, -matrixSystem.Distance * p2Start.X);
@@ -105,7 +105,7 @@ public class MatGameModeBase : GameModeBase
 		mc1.Team = EPlayerTeam.Red;
 		mpc1.HorizontalAxisName = "P2Horizontal";
 		mpc1.VerticalAxisName = "P2Vertical";
-		mc1.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+		//mc1.GetComponentInChildren<SpriteRenderer>().color = Color.red;
 		matrixSystem.SetCharacterEnter(p2Start);
 
 		if (!GameInstance.Instance)

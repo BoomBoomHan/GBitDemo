@@ -29,6 +29,8 @@ public class MatCharacter : Character2D
 		private set;
 	}
 
+	private Animator animator;
+
 	public UnityEvent<IntVector2D> MoveBegin;
 
 	public UnityEvent<IntVector2D> MoveEnd;
@@ -80,9 +82,12 @@ public class MatCharacter : Character2D
 		MoveEnd = new UnityEvent<IntVector2D>();
 
 		MoveBegin.AddListener(OnMoveBegin);
+		MoveBegin.AddListener(PlayJump);
 		MoveEnd.AddListener(OnMoveEnd);
+		MoveEnd.AddListener(PlayIdle);
 
 		matrixSystem = GameModeBase.Get<MatGameModeBase>().MatSystem;
+		animator = GetComponentInChildren<Animator>();
 
 		var camera = Camera.main;
 
@@ -132,5 +137,15 @@ public class MatCharacter : Character2D
 		int actuallyCaused = Math.Clamp(dmg, 0, Hp);
 		Hp -= dmg;
 		return actuallyCaused;
+	}
+
+	void PlayJump(IntVector2D location)
+	{
+		animator.SetTrigger("Jump");
+	}
+
+	void PlayIdle(IntVector2D location)
+	{
+		animator.SetTrigger("JumpEnd");
 	}
 }
