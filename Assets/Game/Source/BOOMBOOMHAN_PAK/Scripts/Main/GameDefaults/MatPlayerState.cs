@@ -38,16 +38,29 @@ public class MatPlayerState : PlayerState
 		mc.MoveBegin.AddListener(SetMoveState);
 		mc.MoveBegin.AddListener(ConsumeStep);
 		mc.MoveEnd.AddListener(ResetMoveState);
+		mc.MoveEnd.AddListener(CheckIfDetention);
 	}
 
 	public void OnRoundBegin()
 	{
 		remainingStepCount = 5;
+		mc.CheckIfDetention(mc.Location);
 	}
 
 	public void OnRoundEnd()
 	{
+		/*if (remainingStepCount > 0)
+		{
+			mc.CheckIfDetention(mc.Location);
+		}*/
+	}
 
+	void CheckIfDetention(IntVector2D location)
+	{
+		if (remainingStepCount > 0)
+		{
+			mc.CheckIfDetention(location);
+		}
 	}
 
 	public bool CanMove()

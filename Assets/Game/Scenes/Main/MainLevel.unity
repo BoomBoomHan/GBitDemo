@@ -708,7 +708,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 60a46fb6af6498747a99797292fa05c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fca1ab36135870348bde36b32100810b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -728,7 +728,7 @@ Transform:
   m_GameObject: {fileID: 182990549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0.05, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 1.87, y: 1.87, z: 1.87}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1214,6 +1214,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1243563139596486295, guid: c4b77255d93ced348a9c779398f23113, type: 3}
   m_PrefabInstance: {fileID: 302053908}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &381208850 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6978993923827455926, guid: ae2c2a37b87a68541a5bb998b8770b47, type: 3}
+  m_PrefabInstance: {fileID: 1545853933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90871cf3f6d184e44af69e2e843684aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &411764888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4310,6 +4321,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6978993923827455926, guid: ae2c2a37b87a68541a5bb998b8770b47, type: 3}
+      propertyPath: bgm
+      value: 
+      objectReference: {fileID: 8300000, guid: e20a66d960061ac46bffb84ab8c1253b, type: 3}
+    - target: {fileID: 6978993923827455926, guid: ae2c2a37b87a68541a5bb998b8770b47, type: 3}
+      propertyPath: musicProperty.bpm
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6978993923827455926, guid: ae2c2a37b87a68541a5bb998b8770b47, type: 3}
+      propertyPath: musicProperty.deno
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6978993923827455926, guid: ae2c2a37b87a68541a5bb998b8770b47, type: 3}
+      propertyPath: musicProperty.molecule
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ae2c2a37b87a68541a5bb998b8770b47, type: 3}
@@ -4911,6 +4938,14 @@ PrefabInstance:
       value: MatGameModeBase
       objectReference: {fileID: 0}
     - target: {fileID: 7242357931164052106, guid: 2fb89a71b7e71b946a22d09f5e042e7d, type: 3}
+      propertyPath: luseeRes
+      value: 
+      objectReference: {fileID: 7670262518206749786, guid: a258260980c042b4eb48cacd174234d8, type: 3}
+    - target: {fileID: 7242357931164052106, guid: 2fb89a71b7e71b946a22d09f5e042e7d, type: 3}
+      propertyPath: musicPlayer
+      value: 
+      objectReference: {fileID: 381208850}
+    - target: {fileID: 7242357931164052106, guid: 2fb89a71b7e71b946a22d09f5e042e7d, type: 3}
       propertyPath: matrixSystem
       value: 
       objectReference: {fileID: 143657968}
@@ -4918,6 +4953,10 @@ PrefabInstance:
       propertyPath: gameUiResource
       value: 
       objectReference: {fileID: 343344550514175273, guid: bffecc7b33d0ffc48afbbfcd354893c3, type: 3}
+    - target: {fileID: 7242357931164052106, guid: 2fb89a71b7e71b946a22d09f5e042e7d, type: 3}
+      propertyPath: gameOverUiResource
+      value: 
+      objectReference: {fileID: 6945821625052826002, guid: df5c57ef5662a4541a51ef7db0992066, type: 3}
     - target: {fileID: 7242357931164052107, guid: 2fb89a71b7e71b946a22d09f5e042e7d, type: 3}
       propertyPath: m_RootOrder
       value: 2

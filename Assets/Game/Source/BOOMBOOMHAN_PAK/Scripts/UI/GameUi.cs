@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class GameUi : MonoBehaviour
 {
+	public static GameUi Instance;
+
 	[HideInInspector]
 	public Canvas UiCanvas;
 	public Image BlueIcon;
@@ -65,5 +67,7 @@ public class GameUi : MonoBehaviour
 		UiCanvas = GetComponent<Canvas>();
 		UiCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 		UiCanvas.worldCamera = Camera.main;
+
+		Instance = this;
 	}
 }

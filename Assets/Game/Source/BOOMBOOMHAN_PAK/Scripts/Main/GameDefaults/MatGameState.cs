@@ -214,20 +214,43 @@ public class MatGameState : GameState
 		gmb.MatSystem.BlockingWall.GetComponent<Animator>().SetTrigger("Disappear");
 
 		hasWall = false;
-		await UniTask.Delay(1200);
+		await UniTask.Delay(1000);
 		gmb.MatSystem.BlockingWall.SetActive(false);
 	}
 
-	void NewRound()
+	async void NewRound()
 	{
-		PlayerComponentGroup temp = actPlayer;
-		actPlayer = waitPlayer;
-		waitPlayer = temp;
-		if (roundCount % 2 == 0)
+		bool actDead = actPlayer.Mc.Hp <= 0;
+		bool waitDead = waitPlayer.Mc.Hp <= 0;
+
+		if (!(actDead || waitDead))
 		{
-			ResetPoints();
+			PlayerComponentGroup temp = actPlayer;
+			actPlayer = waitPlayer;
+			waitPlayer = temp;
+			if (roundCount % 2 == 0)
+			{
+				ResetPoints();
+			}
+			OnRoundBegin();
 		}
-		OnRoundBegin();
+		else
+		{
+			await UniTask.Delay(100);
+			if (actDead)
+			{
+				await PlayBottomTextAnim(ui.GetColor(actPlayer.Mc.Team), "LuseeÕ½°Ü£¡", true);
+				gmb.Victoria = waitPlayer.Mc.Team;
+			}
+			else
+			{
+				await PlayBottomTextAnim(ui.GetColor(waitPlayer.Mc.Team), "DavenÕ½°Ü£¡", true);
+				gmb.Victoria = actPlayer.Mc.Team;
+			}
+
+			gmb.Victory();
+		}
+		
 	}
 
 	void ResetPoints()
@@ -256,5 +279,22 @@ public class MatGameState : GameState
 	public bool DoesBlockExist()
 	{
 		return hasWall;
+	}
+
+	public async void DetentionToVictory(EPlayerTeam victoria)
+	{
+		AdvancedDebug.Log("DetentionToVictory");
+		string name = victoria == EPlayerTeam.Red ? "Daven" : "Lusee";
+		/*if (GameUi.Instance == null)
+		{
+			AdvancedDebug.LogError("ui == null!");
+		}
+		GameUi.Instance.enabled = true;
+		await UniTask.Delay(500);
+		await PlayBottomTextAnim(GameUi.Instance.GetColor(victoria), $"{name}À§±Ð£¡", true);*/
+		gmb = GameModeBase.Get<MatGameModeBase>();
+		gmb.Victoria = victoria;
+		await UniTask.Delay(100);
+		gmb.Victory();
 	}
 }

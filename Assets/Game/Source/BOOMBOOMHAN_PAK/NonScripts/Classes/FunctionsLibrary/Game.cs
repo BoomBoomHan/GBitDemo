@@ -197,10 +197,16 @@ public static class Game
 
 	public static bool IsInDetention(MatrixSystem map, IntVector2D playerLocation, bool hasWall, bool characterHasSupply)
 	{
-		bool canMove = IsValidMove(map, playerLocation, IntVector2D.Up, hasWall, characterHasSupply) ||
-			IsValidMove(map, playerLocation, IntVector2D.Left, hasWall, characterHasSupply) ||
-			IsValidMove(map, playerLocation, IntVector2D.Down, hasWall, characterHasSupply) ||
-			IsValidMove(map, playerLocation, IntVector2D.Right, hasWall, characterHasSupply);
+		bool b1 = IsValidMove(map, playerLocation, IntVector2D.Up, hasWall, characterHasSupply);
+		bool b2 = IsValidMove(map, playerLocation, IntVector2D.Left, hasWall, characterHasSupply);
+		bool b3 = IsValidMove(map, playerLocation, IntVector2D.Down, hasWall, characterHasSupply);
+		bool b4 = IsValidMove(map, playerLocation, IntVector2D.Right, hasWall, characterHasSupply);
+		bool canMove = b1 || b2 || b3 || b4;
+			
+		if (!canMove)
+		{
+			AdvancedDebug.LogWarning($"{b1},{b2},{b3},{b4}");
+		}
 
 		return !canMove;
 	}

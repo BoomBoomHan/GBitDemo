@@ -9,6 +9,9 @@ public class MatCharacter : Character2D
 {
 	IntVector2D location;
 
+	MatGameModeBase gmb;
+	MatGameState gs;
+
 	private Player playerConfig;
 
 	public IntVector2D Location
@@ -36,6 +39,18 @@ public class MatCharacter : Character2D
 	public UnityEvent<IntVector2D> MoveEnd;
 
 	private MatrixSystem matrixSystem;
+
+	private SpriteRenderer spriteRenderer;
+
+	private AudioSource audioSource;
+
+	[SerializeField]
+	private AudioClip injureAff;
+
+	[SerializeField]
+	private AudioClip jumpAff;
+
+	public bool HasSupply;
 
 	public int Hp
 	{
@@ -88,6 +103,11 @@ public class MatCharacter : Character2D
 
 		matrixSystem = GameModeBase.Get<MatGameModeBase>().MatSystem;
 		animator = GetComponentInChildren<Animator>();
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		audioSource = gameObject.AddComponent<AudioSource>();
+
+		gmb = GameModeBase.Get<MatGameModeBase>();
+		gs = gmb.DefaultGameState as MatGameState;
 
 		var camera = Camera.main;
 
@@ -136,7 +156,19 @@ public class MatCharacter : Character2D
 	{
 		int actuallyCaused = Math.Clamp(dmg, 0, Hp);
 		Hp -= dmg;
+		if (actuallyCaused > 0)
+		{
+			PlayInjureAffect();
+		}
 		return actuallyCaused;
+	}
+
+	void PlayInjureAffect()
+	{
+		spriteRenderer.color = Color.red;
+		spriteRenderer.DOColor(Color.white, 0.5f);
+		audioSource.clip = injureAff;
+		audioSource.Play();
 	}
 
 	void PlayJump(IntVector2D location)
@@ -147,5 +179,16 @@ public class MatCharacter : Character2D
 	void PlayIdle(IntVector2D location)
 	{
 		animator.SetTrigger("JumpEnd");
+	}
+
+	public void CheckIfDetention(IntVector2D location)
+	{
+		AdvancedDebug.LogWarning("CheckIfDetention:" + Team);
+		bool dt = Game.IsInDetention(gmb.MatSystem, location, gs.DoesBlockExist(), HasSupply);
+		if (dt)
+		{
+			//AdvancedDebug.Log(dt);
+			gs.DetentionToVictory(Team == EPlayerTeam.Blue ? EPlayerTeam.Red : EPlayerTeam.Blue);
+		}
 	}
 }

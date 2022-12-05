@@ -1,11 +1,16 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MatGameModeBase : GameModeBase
 {
+	[SerializeField, GameModeProperty(Category = "绑定", DisplayName = "玩家2")]
+	private MatCharacter luseeRes;
+
     private MatCharacter mc0;
 	private MatCharacter mc1;
 
@@ -48,6 +53,14 @@ public class MatGameModeBase : GameModeBase
 	[SerializeField, GameModeProperty(Category = "UI", DisplayName = "游戏UI资源")]
 	private GameUi gameUiResource;
 
+	[SerializeField, GameModeProperty(Category = "UI", DisplayName = "游戏结束UI资源")]
+	private GameOverUi gameOverUiResource;
+
+	[SerializeField, GameModeProperty(Category = "主要", DisplayName = "音乐播放器")]
+	MusicPlayer musicPlayer;
+
+	public EPlayerTeam Victoria;
+
 	public GameUi Ui
 	{
 		get;
@@ -72,7 +85,7 @@ public class MatGameModeBase : GameModeBase
 		Ui = Instantiate(gameUiResource).GetComponent<GameUi>();
 
 		mc0 = Instantiate(defaultCharacter, PlayerStartPosition, Quaternion.identity).GetComponent<MatCharacter>();
-		mc1 = Instantiate(defaultCharacter, PlayerStartPosition, Quaternion.identity).GetComponent<MatCharacter>();
+		mc1 = Instantiate(luseeRes, PlayerStartPosition, Quaternion.identity).GetComponent<MatCharacter>();
 
 		mpc0 = Instantiate(defaultPlayerController).GetComponent<MatPlayerController>();
 		mpc1 = Instantiate(defaultPlayerController).GetComponent<MatPlayerController>();
@@ -116,6 +129,9 @@ public class MatGameModeBase : GameModeBase
 
 		UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 		Application.targetFrameRate = -1;
+
+		musicPlayer.Source.loop = true;
+		musicPlayer.Play();
 	}
 
 	void InitBlue(IntVector2D startLocation)
@@ -147,5 +163,20 @@ public class MatGameModeBase : GameModeBase
 		Ui.RedHpBar.value = mc1.HpPercentage;
 		Ui.BlueHpText.text = mc0.Hp.ToString();
 		Ui.RedHpText.text = mc1.Hp.ToString();
+	}
+
+	public override void OnVictory()
+	{
+		base.OnVictory();
+
+		musicPlayer.Source.DOFade(0.0f, 2.5f);
+		mpc0.DisableInput();
+		mpc1.DisableInput();
+		var gameOverUi = Instantiate(gameOverUiResource).GetComponent<GameOverUi>();
+		gameOverUi.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+		gameOverUi.Level.color = Ui.GetColor(Victoria);
+		gameOverUi.ReturnButton.image.sprite = Victoria == EPlayerTeam.Blue ? gameOverUi.BlueSprite : gameOverUi.RedSprite;
+		gameOverUi.ReturnButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
+		Ui.gameObject.SetActive(false);
 	}
 }
